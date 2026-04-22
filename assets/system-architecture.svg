@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="560" viewBox="0 0 980 560" role="img" aria-labelledby="title desc">
+  <title id="title">Applied AI Music Recommender Architecture</title>
+  <desc id="desc">System diagram showing user input flowing through validation, scoring, reranking, confidence evaluation, and output, with logging and testing attached.</desc>
+  <rect width="980" height="560" fill="#f6f2ea"/>
+  <rect x="40" y="70" width="160" height="90" rx="14" fill="#244855"/>
+  <text x="120" y="108" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#ffffff">User</text>
+  <text x="120" y="136" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#d7e8ed">profile input</text>
+
+  <rect x="250" y="40" width="220" height="110" rx="14" fill="#90aead"/>
+  <text x="360" y="82" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#17323a">Input guardrails</text>
+  <text x="360" y="110" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#17323a">normalize fields</text>
+  <text x="360" y="134" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#17323a">clamp risky values</text>
+
+  <rect x="250" y="210" width="220" height="110" rx="14" fill="#e6b89c"/>
+  <text x="360" y="252" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#4f2f22">Catalog loader</text>
+  <text x="360" y="280" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#4f2f22">songs.csv</text>
+  <text x="360" y="304" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#4f2f22">validated rows</text>
+
+  <rect x="530" y="40" width="210" height="110" rx="14" fill="#fbe9d0"/>
+  <text x="635" y="82" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#5b3b17">Base scorer</text>
+  <text x="635" y="110" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#5b3b17">genre mood</text>
+  <text x="635" y="134" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#5b3b17">energy acousticness</text>
+
+  <rect x="530" y="210" width="210" height="110" rx="14" fill="#fbe9d0"/>
+  <text x="635" y="252" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#5b3b17">Self-critique</text>
+  <text x="635" y="280" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#5b3b17">diversity reranking</text>
+  <text x="635" y="304" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#5b3b17">repeat penalties</text>
+
+  <rect x="530" y="380" width="210" height="110" rx="14" fill="#fbe9d0"/>
+  <text x="635" y="422" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#5b3b17">Reliability layer</text>
+  <text x="635" y="450" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#5b3b17">confidence score</text>
+  <text x="635" y="474" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#5b3b17">warnings + metrics</text>
+
+  <rect x="800" y="160" width="150" height="120" rx="14" fill="#244855"/>
+  <text x="875" y="205" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#ffffff">Output</text>
+  <text x="875" y="233" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#d7e8ed">ranked songs</text>
+  <text x="875" y="257" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#d7e8ed">explanations</text>
+
+  <rect x="60" y="390" width="180" height="110" rx="14" fill="#ffffff" stroke="#244855" stroke-width="3"/>
+  <text x="150" y="430" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#244855">Logging</text>
+  <text x="150" y="458" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#244855">recommender.log</text>
+  <text x="150" y="482" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#244855">run trace</text>
+
+  <rect x="260" y="390" width="180" height="110" rx="14" fill="#ffffff" stroke="#244855" stroke-width="3"/>
+  <text x="350" y="430" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#244855">Testing</text>
+  <text x="350" y="458" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#244855">pytest</text>
+  <text x="350" y="482" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#244855">evaluation harness</text>
+
+  <path d="M200 115 H250" stroke="#244855" stroke-width="4" fill="none"/>
+  <polygon points="250,115 238,108 238,122" fill="#244855"/>
+
+  <path d="M360 150 V210" stroke="#244855" stroke-width="4" fill="none"/>
+  <polygon points="360,210 353,198 367,198" fill="#244855"/>
+
+  <path d="M470 95 H530" stroke="#244855" stroke-width="4" fill="none"/>
+  <polygon points="530,95 518,88 518,102" fill="#244855"/>
+
+  <path d="M470 265 H530" stroke="#244855" stroke-width="4" fill="none"/>
+  <polygon points="530,265 518,258 518,272" fill="#244855"/>
+
+  <path d="M635 150 V210" stroke="#244855" stroke-width="4" fill="none"/>
+  <polygon points="635,210 628,198 642,198" fill="#244855"/>
+
+  <path d="M635 320 V380" stroke="#244855" stroke-width="4" fill="none"/>
+  <polygon points="635,380 628,368 642,368" fill="#244855"/>
+
+  <path d="M740 265 H800" stroke="#244855" stroke-width="4" fill="none"/>
+  <polygon points="800,265 788,258 788,272" fill="#244855"/>
+
+  <path d="M240 445 H530" stroke="#244855" stroke-width="3" stroke-dasharray="10 10" fill="none"/>
+  <polygon points="530,445 518,438 518,452" fill="#244855"/>
+
+  <path d="M440 445 H530" stroke="#244855" stroke-width="3" stroke-dasharray="10 10" fill="none"/>
+  <polygon points="530,445 518,438 518,452" fill="#244855"/>
+
+  <text x="505" y="428" text-anchor="end" font-family="Arial, sans-serif" font-size="16" fill="#244855">observability</text>
+  <text x="505" y="470" text-anchor="end" font-family="Arial, sans-serif" font-size="16" fill="#244855">verification</text>
+</svg>
