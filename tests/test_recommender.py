@@ -1,8 +1,10 @@
 from src.recommender import (
     Recommender,
+    RecommendationReport,
     Song,
     UserProfile,
     load_songs,
+    recommend_with_report,
     recommend_songs,
     score_song,
 )
@@ -236,3 +238,160 @@ def test_recommend_songs_returns_sorted_top_k_with_explanations():
     assert recommendations[0][1] >= recommendations[1][1]
     assert recommendations[0][2].strip() != ""
     assert "stands out because" in recommendations[0][2]
+
+
+def test_recommend_with_report_clamps_invalid_energy_and_warns():
+    songs = [
+        make_song_dict(
+            id=1,
+            title="Top Match",
+            genre="pop",
+            mood="happy",
+            energy=0.8,
+            acousticness=0.2,
+        ),
+        make_song_dict(
+            id=2,
+            title="Next Match",
+            genre="rock",
+            mood="happy",
+            energy=0.78,
+            acousticness=0.2,
+        ),
+    ]
+
+    report = recommend_with_report({"genre": "pop", "mood": "happy", "energy": 1.6}, songs, k=2)
+
+    assert isinstance(report, RecommendationReport)
+    assert report.normalized_user_prefs["energy"] == 1.0
+    assert any("clamped" in warning for warning in report.warnings)
+
+
+def test_recommend_with_report_assigns_bounded_confidence_scores():
+    songs = [
+        make_song_dict(
+            id=1,
+            title="Top Match",
+            genre="pop",
+            mood="happy",
+            energy=0.8,
+            acousticness=0.2,
+        ),
+        make_song_dict(
+            id=2,
+            title="Second Match",
+            genre="pop",
+            mood="happy",
+            energy=0.79,
+            acousticness=0.2,
+        ),
+    ]
+
+    report = recommend_with_report(make_user_prefs(), songs, k=2)
+
+    assert all(0.0 <= result.confidence <= 1.0 for result in report.recommendations)
+    assert report.metrics["average_confidence"] > 0.0
+
+
+def test_diversity_reranking_promotes_new_genre_when_scores_are_close():
+    songs = [
+        make_song_dict(
+            id=1,
+            title="Pop One",
+            genre="pop",
+            mood="happy",
+            energy=0.80,
+            acousticness=0.10,
+        ),
+        make_song_dict(
+            id=2,
+            title="Pop Two",
+            genre="pop",
+            mood="happy",
+            energy=0.79,
+            acousticness=0.10,
+        ),
+        make_song_dict(
+            id=3,
+            title="Rock Surprise",
+            genre="rock",
+            mood="happy",
+            energy=0.78,
+            acousticness=0.10,
+        ),
+    ]
+
+    report = recommend_with_report({"mood": "happy", "energy": 0.8}, songs, k=3)
+    titles = [result.song["title"] for result in report.recommendations]
+
+    assert titles[:2] == ["Pop One", "Rock Surprise"]
+    assert any("genre-diversity penalties" in warning for warning in report.warnings)
+
+
+def test_recommend_with_report_retrieves_context_from_multiple_sources():
+    songs = [
+        make_song_dict(
+            id=1,
+            title="Pop Context Match",
+            genre="pop",
+            mood="happy",
+            energy=0.80,
+            acousticness=0.20,
+        ),
+    ]
+
+    report = recommend_with_report({"genre": "pop", "mood": "happy", "energy": 0.8}, songs, k=1)
+    result = report.recommendations[0]
+
+    assert any("genre_notes/pop" in item for item in result.retrieved_context)
+    assert any("mood_notes/happy" in item for item in result.retrieved_context)
+    assert report.metrics["retrieval_coverage_ratio"] == 1.0
+
+
+def test_recommend_with_report_includes_observable_workflow_trace():
+    songs = [
+        make_song_dict(
+            id=1,
+            title="Trace Match",
+            genre="pop",
+            mood="happy",
+            energy=0.80,
+            acousticness=0.20,
+        ),
+    ]
+
+    report = recommend_with_report({"genre": "pop", "mood": "happy", "energy": 0.8}, songs, k=1)
+
+    assert len(report.workflow_trace) >= 5
+    assert any("Loaded" in step for step in report.workflow_trace)
+    assert any("self-critique reranking loop" in step for step in report.workflow_trace)
+
+
+def test_specialized_explanation_style_differs_from_plain_mode():
+    songs = [
+        make_song_dict(
+            id=1,
+            title="Styled Match",
+            genre="pop",
+            mood="happy",
+            energy=0.80,
+            acousticness=0.20,
+        ),
+    ]
+
+    plain_report = recommend_with_report(
+        {"genre": "pop", "mood": "happy", "energy": 0.8},
+        songs,
+        k=1,
+        explanation_style="plain",
+    )
+    curator_report = recommend_with_report(
+        {"genre": "pop", "mood": "happy", "energy": 0.8},
+        songs,
+        k=1,
+        explanation_style="curator",
+    )
+
+    assert plain_report.recommendations[0].explanation != curator_report.recommendations[0].explanation
+    assert plain_report.recommendations[0].explanation.startswith("Styled Match stands out because")
+    assert curator_report.recommendations[0].explanation.startswith("Curator note:")

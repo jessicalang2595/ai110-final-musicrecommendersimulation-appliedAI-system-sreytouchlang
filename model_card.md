@@ -1,125 +1,155 @@
-# Model Card: VibeMatch Lite 1.0
+# Model Card: VibeMatch Reliable Recommender 2.0
 
 ## 1. Model Name
 
-**VibeMatch Lite 1.0**
+**VibeMatch Reliable Recommender 2.0**
 
----
+## 2. Base Project
 
-## 2. Intended Use
+This project extends my Module 3 project, **Music Recommender Simulation**. The original system used a hand-written weighted scoring rule to rank songs by genre, mood, energy, and acousticness. The new version keeps that transparent scoring logic, but wraps it with local retrieval, constrained explanation styles, an observable workflow trace, guardrails, confidence scoring, a self-critique reranking loop, runtime logging, and an evaluation harness.
 
-This recommender suggests a few songs from a small classroom catalog based on a user's preferred genre, preferred mood, target energy, and acoustic preference. It is meant for learning how recommendation logic works, not for use in a real product.
+## 3. Intended Use
 
-The system assumes that music taste can be represented by a few fixed preferences. That makes the model easy to inspect, but it leaves out many parts of real listening behavior. It should not be used for real user profiling or any high-stakes personalization task.
+This system is designed for classroom learning and portfolio demonstration. It recommends songs from a small catalog based on a user profile and tries to explain how trustworthy each recommendation is.
 
----
+It is **not** meant for real music personalization, psychological profiling, or commercial deployment. The dataset is tiny, hand-curated, and too narrow to support real-world claims about user taste.
 
-## 3. How the Model Works
+## 4. How The System Works
 
-The model uses a weighted scoring rule instead of training a machine learning model. Each song gets compared to a user profile, and the score comes from four parts:
+The system has three connected layers:
 
-- genre match
-- mood match
-- energy closeness
-- acousticness fit
+1. **Base recommender**
+   - genre match: `+4.0`
+   - mood match: `+2.5`
+   - energy closeness: up to `+2.0`
+   - acousticness fit: up to `+1.5`
+2. **Retrieval and specialization layer**
+   - retrieves matching notes from `knowledge/genre_notes.md`
+   - retrieves matching notes from `knowledge/mood_notes.md`
+   - supports constrained explanation styles: `plain`, `curator`, `studio`
+3. **Reliability layer**
+   - normalizes and validates user input
+   - clamps invalid energy values into the `0.0-1.0` range
+   - penalizes repeated genres or artists when the top-k list gets too narrow
+   - assigns confidence scores to each recommendation
+   - emits warnings when diversity or reliability look weak
+   - prints an observable workflow trace of the recommendation chain
 
-In the final version, genre is weighted at `4.0`, mood at `2.5`, energy closeness contributes up to `2.0`, and acousticness contributes up to `1.5`. After all songs are scored, the recommender sorts the catalog and returns the top matches with score reasons and short explanations.
+This means the final output is not just a ranked list. It is a ranked list plus retrieved context, specialized explanation text, confidence, self-check notes, warnings, and a trace of the multi-step workflow.
 
-Compared with the starter code, I implemented the OOP and functional recommenders, CSV parsing, explanation generation, multi-profile CLI output, and tests for the scoring logic.
+## 5. Data
 
----
+The dataset contains **16 songs** in `data/songs.csv`.
 
-## 4. Data
+What the data includes:
 
-The dataset contains **16 songs** in `data/songs.csv`. I expanded the starter 10-song catalog by adding 6 more songs to improve genre and mood variety.
+- a small range of genres such as `pop`, `lofi`, `rock`, `ambient`, `edm`, and `hyperpop`
+- moods such as `happy`, `chill`, `intense`, `focused`, and `reflective`
+- numeric fields for energy, tempo, valence, danceability, and acousticness
 
-Genres represented:
+What the data does not include:
 
-- `lofi` (3)
-- `pop` (2)
-- `rock` (1)
-- `ambient` (1)
-- `jazz` (1)
-- `synthwave` (1)
-- `indie pop` (1)
-- `edm` (1)
-- `folk` (1)
-- `r&b` (1)
-- `hyperpop` (1)
-- `acoustic` (1)
-- `indie` (1)
+- large-scale listening history
+- user behavior across time
+- cultural or language diversity at realistic scale
+- enough artist variety to fully test fairness or coverage
 
-Moods represented:
+The retrieval layer adds two custom local knowledge documents:
 
-- `happy` (3)
-- `chill` (3)
-- `intense` (2)
-- `relaxed` (1)
-- `moody` (1)
-- `focused` (1)
-- `euphoric` (1)
-- `tender` (1)
-- `sensual` (1)
-- `chaotic` (1)
-- `reflective` (1)
+- `knowledge/genre_notes.md`
+- `knowledge/mood_notes.md`
 
-Even after expansion, this is still a tiny hand-curated dataset. It does not cover many cultures, languages, genres, or listening contexts.
+## 6. Strengths
 
----
+- The model is transparent and easy to explain.
+- Retrieval makes explanations more specific than the original baseline.
+- The specialized styles make it easy to demonstrate constrained output behavior.
+- The system no longer hides uncertainty behind a single score.
+- Confidence scores and warnings make the output more honest.
+- The self-critique loop helps reduce repetitive top-k lists.
+- The evaluation harness makes the system easier to test consistently.
 
-## 5. Strengths
+## 7. Limitations And Biases
 
-- The model is easy to explain because every score comes from visible feature matches.
-- It works reasonably well for clear profiles like pop/happy or lofi/chill users.
-- The CLI shows both the score reasons and a short explanation, which makes the output more transparent.
-- A pop/happy/high-energy listener got `Sunrise City` first, which matched my expectation.
-- A rock/intense listener got `Storm Runner` first, which also felt correct.
+- The catalog is still very small, so many listener types are underrepresented.
+- Genre remains the strongest signal, which can create a filter bubble.
+- A reranking penalty can improve diversity, but it cannot invent missing genres or artists.
+- Low-ranked songs often have weak confidence because several songs are only partial matches.
+- The acoustic preference is still binary, which oversimplifies how people actually describe taste.
+- The retrieval layer is still limited to a small handcrafted knowledge base.
 
----
+The biggest bias risk is uneven coverage: some tastes are better served simply because they appear more often in the data.
 
-## 6. Limitations and Bias
+## 8. Misuse Risks And Guardrails
 
-- The catalog is still very small, so recommendation quality is capped by what is available.
-- Genre has the largest weight, so the system can over-prioritize same-genre songs and create a small filter bubble.
-- Some genres and moods appear only once, so users with those tastes have fewer chances to get strong matches.
-- The model ignores lyrics, artist loyalty, social trends, and long-term listening behavior.
-- The acoustic preference is binary, which flattens a more nuanced part of music taste.
+Possible misuse:
 
-If a similar scoring setup were used in a real app, it could serve some listeners much better than others simply because of the data mix and chosen weights.
+- treating the system like a real production recommender
+- using its suggestions as if they reflect a person's full identity or culture
+- hiding low-confidence results behind polished explanations
 
----
+How I reduce that risk:
 
-## 7. Evaluation
+- I clearly state that the system is a classroom-scale prototype.
+- The CLI prints confidence scores and warnings instead of pretending every answer is equally strong.
+- Input guardrails explain when preferences are missing or invalid.
+- The model card documents bias and data limitations directly.
 
-I evaluated the system in three ways:
+## 9. Evaluation Results
 
-- I ran `pytest` to verify recommendation ordering, explanation output, energy sensitivity, acoustic preference behavior, CSV parsing, and sorted top-`k` output.
-- I manually tested multiple user profiles and compared the rankings to my expectations.
-- I temporarily changed the weights to see how the rankings shifted.
+I tested the system in two ways:
 
-Examples:
+### Automated tests
 
-- `genre=pop`, `mood=happy`, `energy=0.8` returned `Sunrise City`, `Gym Hero`, and `Golden Hour Run`.
-- `genre=lofi`, `mood=chill`, `energy=0.4`, `likes_acoustic=True` returned `Library Rain`, `Midnight Coding`, and `Focus Flow`.
-- `genre=rock`, `mood=intense`, `energy=0.9` returned `Storm Runner`, `Gym Hero`, and `Pixel Heartbeat`.
-- Lowering the genre weight from `4.0` to `1.5` moved `Golden Hour Run` and `Rooftop Lights` above `Gym Hero` for the pop profile.
+- `13/13` tests passed.
+- Tests cover scoring behavior, explanation generation, retrieval-backed context, style differences, confidence bounds, guardrail behavior, workflow trace behavior, and diversity reranking.
 
-I did not use a formal accuracy metric because the project is based on a tiny classroom dataset and a hand-written rule. My main goal was to see whether the rankings felt consistent and explainable.
+### Evaluation harness
 
----
+I ran `python3 -m src.evaluate` on four predefined profiles.
 
-## 8. Future Work
+Results:
 
-- Let users express multiple favorite genres or moods instead of only one.
-- Add a diversity rule so the top recommendations do not cluster too much by style or artist.
-- Use more features, such as tempo similarity or valence, in a controlled way.
-- Replace the binary acoustic preference with a continuous preference scale.
-- Add multiple scoring modes such as genre-first or energy-first.
+- average confidence across profiles: `0.67`
+- profiles with self-critique penalties: `2/4`
+- profiles with diversity warnings: `1/4`
+- profiles with input guardrail warnings: `1/4`
+- profiles with retrieval-backed explanations: `4/4`
+- specialized style output differed from baseline: `True`
 
----
+What surprised me:
 
-## 9. Personal Reflection
+The lofi/chill profile still triggered a diversity warning even after reranking. That was useful because it showed the system can admit that a narrow result set is still narrow, instead of pretending the penalty solved everything.
 
-Building this project made recommendation systems feel less mysterious. Even a simple weighted formula can produce outputs that seem surprisingly personalized, which helped me understand why recommender systems can feel smart even before they become very complex.
+## 10. Human Evaluation Notes
 
-What stood out most was how quickly bias appears, even in a small classroom simulation. The recommender is only as broad as its data and assumptions, so human judgment still matters when choosing the data, setting the weights, and deciding whether the results are actually fair.
+The strongest profiles still matched my intuition:
+
+- pop/happy users still got `Sunrise City` first
+- rock/intense users still got `Storm Runner` first
+- lofi/chill users still got `Library Rain` first
+
+The difference is that the system now tells me when it is leaning too heavily on repeated genres, shows the workflow trace that produced the result, and grounds the explanation with retrieved genre and mood notes.
+
+## 11. Collaboration With AI
+
+AI was helpful during this project, but it still needed verification.
+
+Helpful suggestion:
+
+- separating the project into a base scoring layer, a retrieval layer, and a reliability layer made the code easier to test and explain
+
+Flawed suggestion:
+
+- an early idea was to apply a much larger genre penalty, but that would have distorted the ranking too aggressively and pushed clearly good matches too far down the list
+
+The important lesson was that AI suggestions became useful only after I ran tests and checked whether the outputs still matched the design goals.
+
+## 12. Future Work
+
+- support multiple favorite genres or moods
+- expand retrieval to a larger external or user-supplied music knowledge base
+- replace binary acoustic preference with a continuous preference scale
+- add a larger catalog with better artist and genre coverage
+- compare the current reranking approach with a diversity-aware scoring formula
+- build a small Streamlit interface around the report output
