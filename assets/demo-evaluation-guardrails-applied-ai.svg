@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="610" viewBox="0 0 1100 610">
+  <rect width="1100" height="610" fill="#0b1220"/>
+  <rect x="20" y="20" width="1060" height="570" rx="16" fill="#111827" stroke="#334155" stroke-width="2"/>
+  <circle cx="52" cy="52" r="7" fill="#ef4444"/>
+  <circle cx="76" cy="52" r="7" fill="#f59e0b"/>
+  <circle cx="100" cy="52" r="7" fill="#22c55e"/>
+  <text x="130" y="58" fill="#cbd5e1" font-family="Menlo, Monaco, monospace" font-size="18">python3 -m src.evaluate</text>
+  <text x="38" y="96" fill="#93c5fd" font-family="Menlo, Monaco, monospace" font-size="18">Evaluation harness on 4 profiles and 16 songs</text>
+  <text x="38" y="130" fill="#f8fafc" font-family="Menlo, Monaco, monospace" font-size="16">Balanced Pop: top pick=Sunrise City | avg confidence=0.71 | warnings=1</text>
+  <text x="38" y="156" fill="#f8fafc" font-family="Menlo, Monaco, monospace" font-size="16">Acoustic Study: top pick=Library Rain | avg confidence=0.72 | warnings=3</text>
+  <text x="38" y="182" fill="#f8fafc" font-family="Menlo, Monaco, monospace" font-size="16">High-Intensity Rock: top pick=Storm Runner | avg confidence=0.65 | warnings=0</text>
+  <text x="38" y="218" fill="#fde68a" font-family="Menlo, Monaco, monospace" font-size="16">Guardrail Stress Test:</text>
+  <text x="62" y="244" fill="#cbd5e1" font-family="Menlo, Monaco, monospace" font-size="15">top pick=Sunrise City | avg confidence=0.59 | warnings=2</text>
+  <text x="62" y="268" fill="#cbd5e1" font-family="Menlo, Monaco, monospace" font-size="15">- Input guardrail: energy 1.30 was clamped to 1.00</text>
+  <text x="62" y="292" fill="#cbd5e1" font-family="Menlo, Monaco, monospace" font-size="15">- Input guardrail: no genre preference was supplied, so genre matching was disabled</text>
+  <text x="38" y="332" fill="#a7f3d0" font-family="Menlo, Monaco, monospace" font-size="15">Summary</text>
+  <text x="62" y="358" fill="#cbd5e1" font-family="Menlo, Monaco, monospace" font-size="15">- Average confidence across profiles: 0.67</text>
+  <text x="62" y="382" fill="#cbd5e1" font-family="Menlo, Monaco, monospace" font-size="15">- Profiles with self-critique penalties: 2/4</text>
+  <text x="62" y="406" fill="#cbd5e1" font-family="Menlo, Monaco, monospace" font-size="15">- Profiles with diversity warnings: 1/4</text>
+  <text x="62" y="430" fill="#cbd5e1" font-family="Menlo, Monaco, monospace" font-size="15">- Profiles with input guardrail warnings: 1/4</text>
+  <text x="62" y="454" fill="#cbd5e1" font-family="Menlo, Monaco, monospace" font-size="15">- Profiles with retrieval-backed explanations: 4/4</text>
+  <text x="62" y="478" fill="#cbd5e1" font-family="Menlo, Monaco, monospace" font-size="15">- Specialized style differs from baseline: True</text>
+  <text x="38" y="522" fill="#93c5fd" font-family="Menlo, Monaco, monospace" font-size="15">AI features shown: evaluation harness, guardrails, retrieval coverage, specialized style comparison.</text>
+</svg>

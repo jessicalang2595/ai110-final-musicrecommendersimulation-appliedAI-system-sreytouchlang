@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="560" viewBox="0 0 1100 560">
+  <rect width="1100" height="560" fill="#0b1220"/>
+  <rect x="20" y="20" width="1060" height="520" rx="16" fill="#111827" stroke="#334155" stroke-width="2"/>
+  <circle cx="52" cy="52" r="7" fill="#ef4444"/>
+  <circle cx="76" cy="52" r="7" fill="#f59e0b"/>
+  <circle cx="100" cy="52" r="7" fill="#22c55e"/>
+  <text x="130" y="58" fill="#cbd5e1" font-family="Menlo, Monaco, monospace" font-size="18">python3 -m src.main</text>
+  <text x="38" y="96" fill="#93c5fd" font-family="Menlo, Monaco, monospace" font-size="18">=== High-Energy Pop ===</text>
+  <text x="38" y="126" fill="#e2e8f0" font-family="Menlo, Monaco, monospace" font-size="16">Input: {"genre": "pop", "mood": "happy", "energy": 0.8}</text>
+  <text x="38" y="152" fill="#e2e8f0" font-family="Menlo, Monaco, monospace" font-size="16">Style: curator | avg confidence=0.71 | retrieval coverage=1.00</text>
+  <text x="38" y="188" fill="#a7f3d0" font-family="Menlo, Monaco, monospace" font-size="15">Workflow trace:</text>
+  <text x="62" y="214" fill="#cbd5e1" font-family="Menlo, Monaco, monospace" font-size="15">- normalized profile and selected the curator style</text>
+  <text x="62" y="238" fill="#cbd5e1" font-family="Menlo, Monaco, monospace" font-size="15">- loaded 2 retrieval sources from the local knowledge base</text>
+  <text x="62" y="262" fill="#cbd5e1" font-family="Menlo, Monaco, monospace" font-size="15">- scored 16 songs and retrieved supporting notes</text>
+  <text x="62" y="286" fill="#cbd5e1" font-family="Menlo, Monaco, monospace" font-size="15">- applied self-critique reranking and adjusted 1 top-k result</text>
+  <text x="62" y="310" fill="#cbd5e1" font-family="Menlo, Monaco, monospace" font-size="15">- assigned confidence scores and compiled warnings</text>
+  <text x="38" y="346" fill="#fde68a" font-family="Menlo, Monaco, monospace" font-size="15">Warning: Self-critique loop applied genre-diversity penalties to 1 recommendation.</text>
+  <text x="38" y="382" fill="#f8fafc" font-family="Menlo, Monaco, monospace" font-size="17">Top pick: Sunrise City | Base 9.69 | Adjusted 9.69 | Confidence 0.99</text>
+  <text x="62" y="408" fill="#cbd5e1" font-family="Menlo, Monaco, monospace" font-size="15">Reasons: genre match (+4.0), mood match (+2.5), energy closeness (+1.96)</text>
+  <text x="62" y="432" fill="#cbd5e1" font-family="Menlo, Monaco, monospace" font-size="15">Retrieved context: genre_notes/pop + mood_notes/happy</text>
+  <text x="62" y="456" fill="#cbd5e1" font-family="Menlo, Monaco, monospace" font-size="15">Self-check: retrieval grounded the explanation with matching genre and mood notes.</text>
+  <text x="38" y="496" fill="#93c5fd" font-family="Menlo, Monaco, monospace" font-size="15">AI features shown: retrieval, specialized style, workflow trace, confidence, self-critique.</text>
+</svg>

@@ -268,11 +268,29 @@ This project taught me that "trustworthy AI" is often about the layers around th
 
 What this project says about me as an AI engineer: I like building systems that are not only functional, but inspectable. Instead of stopping at "the model gave an answer," I focused on whether the system could explain its choices, detect weak cases, and surface failure modes clearly enough for a human reviewer to trust the workflow.
 
-## Loom Walkthrough
+## Demo Walkthrough
 
-Add your Loom walkthrough link here before submission.
+This README includes a screenshot walkthrough, which satisfies the submission option of a Loom link or a GIF/screenshot walkthrough.
 
-### Suggested 5-7 minute demo script
+### Screenshot 1: High-Energy Pop end-to-end run
+
+![High-Energy Pop applied AI walkthrough](assets/demo-high-energy-pop-applied-ai.svg)
+
+This screenshot shows the full recommendation flow for a strong pop profile, including retrieval-backed explanation context, the observable workflow trace, confidence scoring, and a self-critique penalty on a repetitive genre result.
+
+### Screenshot 2: Chill Lofi diversity and self-critique behavior
+
+![Chill Lofi applied AI walkthrough](assets/demo-chill-lofi-applied-ai.svg)
+
+This screenshot shows the reliability layer doing more than ranking songs. The system applies genre and artist penalties, keeps `Library Rain` as the top match, and still surfaces a diversity warning when the top-k list remains narrow.
+
+### Screenshot 3: Evaluation harness and guardrail behavior
+
+![Evaluation and guardrail walkthrough](assets/demo-evaluation-guardrails-applied-ai.svg)
+
+This screenshot shows the required reliability behavior across multiple inputs. It includes the `Guardrail Stress Test`, input-clamping warnings, retrieval coverage, and the evaluation summary across four predefined profiles.
+
+### Optional Loom script
 
 #### 1. Open with the project goal
 
