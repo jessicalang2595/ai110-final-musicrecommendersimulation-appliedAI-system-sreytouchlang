@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="300" viewBox="0 0 960 300">
+  <rect width="960" height="300" fill="#111827"/>
+  <rect x="18" y="18" width="924" height="264" rx="12" fill="#0f172a" stroke="#334155"/>
+  <circle cx="44" cy="44" r="7" fill="#ef4444"/>
+  <circle cx="66" cy="44" r="7" fill="#f59e0b"/>
+  <circle cx="88" cy="44" r="7" fill="#22c55e"/>
+  <text x="116" y="49" fill="#cbd5e1" font-family="Menlo, Monaco, monospace" font-size="16">Deep Intense Rock CLI Output</text>
+  <text x="36" y="84" fill="#93c5fd" font-family="Menlo, Monaco, monospace" font-size="17">Loaded songs: 16</text>
+  <text x="36" y="116" fill="#f8fafc" font-family="Menlo, Monaco, monospace" font-size="17">Storm Runner - Score: 9.83</text>
+  <text x="36" y="140" fill="#cbd5e1" font-family="Menlo, Monaco, monospace" font-size="15">Reasons: genre match (+4.0), mood match (+2.5), energy closeness (+1.98)</text>
+  <text x="36" y="172" fill="#f8fafc" font-family="Menlo, Monaco, monospace" font-size="17">Gym Hero - Score: 5.87</text>
+  <text x="36" y="196" fill="#cbd5e1" font-family="Menlo, Monaco, monospace" font-size="15">Reasons: mood match (+2.5), energy closeness (+1.94), low-acoustic fit (+1.42)</text>
+  <text x="36" y="228" fill="#f8fafc" font-family="Menlo, Monaco, monospace" font-size="17">Pixel Heartbeat - Score: 3.36</text>
+  <text x="36" y="252" fill="#cbd5e1" font-family="Menlo, Monaco, monospace" font-size="15">Reasons: energy closeness (+1.92), low-acoustic fit (+1.44)</text>
+</svg>
