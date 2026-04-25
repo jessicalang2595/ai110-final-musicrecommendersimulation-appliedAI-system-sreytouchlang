@@ -374,3 +374,5 @@ If you want to mention stretch work directly, add:
 - point to confidence scores and warnings
 - explain one self-critique example
 - explain one guardrail example
+
+### Loom Video Link: <https://www.loom.com/share/515e3c4222b54f608deb5dc8457a58ae>
